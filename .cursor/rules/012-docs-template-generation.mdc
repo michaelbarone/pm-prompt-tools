@@ -1,0 +1,179 @@
+---
+description: Generate document from template when prompted to create new document or create new program
+globs: docs/templates/**/*.md
+alwaysApply: false
+---
+
+# Document Template Generation
+
+## Context
+- Applies when creating new documents from templates
+- Ensures consistent document creation process
+- Maintains standardized document structure
+- Guides through document completion with prompts
+- Follows template structure defined in /docs/templates/template-structure.md
+
+## Requirements
+
+### Template Types and Locations
+```markdown
+/docs/templates/
+├── template-structure.md     # Master template structure guide
+├── [type]-template.md       # Type-specific templates
+```
+
+### File Naming Convention
+- Pattern: `[type]-[name].md`
+- Valid document types:
+  - program: Program documentation
+  - feature: Feature specifications
+  - design: Design documents
+  - plan: Planning documents
+  - api: API documentation
+  - test: Test documentation
+  - setup: Setup guides
+  - release: Release notes
+- Name portion requirements:
+  - Use kebab-case
+  - Be descriptive and concise
+  - Avoid special characters
+  - Maximum length: 50 characters (excluding type prefix)
+
+### Document Generation Process
+1. Initial Prompt Recognition:
+   - Trigger: "let's create a new [type] document"
+   - Validate [type] exists in /docs/templates/
+   - Identify correct template source
+   - Ask Clarifying Questions as needed including name of the new document
+
+2. Template Copy Phase:
+   - Create output directory if needed
+   - Generate filename following naming convention: /docs/output/[type]-[name].md
+   - Copy template to destination
+   - Initialize all sections with status markers:
+     ```markdown
+     [!] Initial Context - Required First
+     [ ] Manual Entry - Available for updates
+     [ ] Other Sections - Pending Initial Context
+     ```
+   - Initialize with current timestamp
+
+3. Document Completion Phase:
+   - Start with Initial Context section:
+     - Generate template-specific required questions
+     - Collect and validate responses
+     - Mark section as complete only when all required fields are filled
+   
+   - Enable Manual Entry section:
+     - Mark as available for updates
+     - Document any provided additional context
+   
+   - For each remaining section:
+     - Check dependencies on Initial Context and Manual Entry
+     - Mark sections with unmet dependencies as [!] Dependency Blocked
+     - Generate section-specific questions only for unblocked sections
+     - Update section status based on responses and dependencies
+
+4. Progress Tracking:
+   ```markdown
+   [✓] Complete - All required information provided
+   [?] Awaiting Input - Missing required information
+   [!] Dependency Blocked - Waiting for other sections
+   [ ] Not Started - Section not yet addressed
+   ```
+
+## Examples
+
+### Valid Document Names
+```markdown
+- program-self-service-pos-integrations.md
+- feature-oauth-authentication.md
+- design-database-schema.md
+- plan-q2-roadmap.md
+```
+
+### Invalid Document Names
+```markdown
+- self-service-pos-integrations.md (missing type prefix)
+- program_pos_integration.md (using underscores)
+- program-POS-Integration.md (using uppercase)
+- design--database-schema.md (double hyphens)
+```
+
+### Document Creation Flow
+<example>
+User: "let's create a new program document"
+
+AI: "I'll help you create a program document. First, let's complete the Initial Context section:
+
+[!] Initial Context - Required Questions:
+1. What is the program name?
+2. What is the primary motivation?
+3. Who is the main beneficiary?"
+
+User: "The name is 'Customer Portal Enhancement'"
+
+AI: *Creates file as 'program-customer-portal-enhancement.md'*
+*Updates Initial Context section with provided name*
+
+"I've recorded the program name. To complete the Initial Context, I still need:
+[?] Primary motivation
+[?] Main beneficiary
+
+The following sections are blocked until Initial Context is complete:
+[!] Impact Assessment (Depends on: Main Beneficiary)
+[!] Strategic Alignment (Depends on: Primary Motivation)
+[ ] Other sections...
+
+Would you like to provide the remaining Initial Context information?"
+
+[Process continues with clear dependency tracking]
+</example>
+
+<example type="invalid">
+User: "let's create a new program document"
+
+AI: *Attempts to fill out Impact Assessment before completing Initial Context*
+*Skips dependency validation*
+
+[Incorrect: Must complete Initial Context first and respect dependencies]
+</example>
+
+## Critical Rules
+- ALWAYS verify template type exists before proceeding
+- ALWAYS establish output location first
+- NEVER modify template source files
+- ALWAYS use system timestamp for document creation
+- ALWAYS follow template structure exactly
+- NEVER skip required questions
+- ALWAYS validate responses match expected format
+- ALWAYS prefix document files with [type]-
+- ALWAYS use kebab-case for the entire filename
+- NEVER use special characters or spaces in filenames
+- NEVER skip the type prefix
+- NEVER use uppercase letters in filenames
+- NEVER populate sections without explicit user input
+- ALWAYS track and display section completion status
+- ALWAYS ask for clarification on incomplete sections
+- NEVER assume information for unfilled sections
+- ALWAYS show progress and remaining sections after each update
+- ALWAYS complete Initial Context before other sections
+- NEVER skip dependency checks when updating sections
+- ALWAYS allow for Manual Entry updates
+- NEVER remove or modify template section structure
+- ALWAYS track section completion status
+- ALWAYS validate dependencies before marking sections complete
+- ALWAYS follow template-structure.md guidelines
+- NEVER proceed past Initial Context until all required fields are complete
+
+metadata:
+  priority: high
+  version: 1.3.0
+  tags:
+    - documentation
+    - templates
+    - generation
+    - prompts
+    - naming-convention
+    - incremental-completion
+    - dependencies 
