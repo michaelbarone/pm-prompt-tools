@@ -26,16 +26,8 @@ alwaysApply: false
 ### File Naming Convention
 - Pattern: `[type]-[name].md`
 - Valid document types:
-  - program: Program documentation
-  - feature: Feature specifications
-  - design: Design documents
-  - plan: Planning documents
-  - api: API documentation
-  - test: Test documentation
-  - setup: Setup guides
-  - release: Release notes
+  - must search /docs/templates to see available types.  types are only available if a /docs/template/[type]-tempate.md file exists.
 - Name portion requirements:
-  - Use kebab-case
   - Be descriptive and concise
   - Avoid special characters
   - Maximum length: 50 characters (excluding type prefix)
@@ -43,23 +35,34 @@ alwaysApply: false
 ### Document Generation Process
 1. Initial Prompt Recognition:
    - Trigger: "let's create a new [type] document"
-   - Validate [type] exists in /docs/templates/
-   - Identify correct template source
-   - Ask ONLY Initial Prompt questions from template
-   - Generate filename following naming convention: /docs/output/[type]-[name].md
+   - IMMEDIATELY validate template exists at /docs/templates/[type]-template.md
+   - If template doesn't exist:
+     - Inform user that document type is unavailable
+     - List currently available document types from /docs/templates
+     - Suggest either creating template first or using available type
+     - DO NOT PROCEED with document creation
+   - If template exists:
+     - Load template content
+     - Ask Initial Prompt questions from template
+     - Generate filename following naming convention: /docs/output/[type]-[name].md
 
-2. Template Copy Phase:
+2. Template Population Phase:
    - Create output directory if needed
-   - Copy template EXACTLY to destination without modifications
+   - Copy template EXACTLY to destination
    - Initialize with current timestamp
-   - Mark Initial Prompt section as complete with provided answers
-   - Mark all other sections as pending manual entry
+   - Populate Initial Prompt section with provided answers
+   - Pre-populate sections with Discovery Phase answers
+   - Mark remaining sections as pending manual entry
+   - Add [PRE_POPULATED] tag to sections filled from Discovery
+   - Add [MANUAL_ENTRY] tag to sections requiring user input
 
 3. Manual Entry Phase:
-   - User works directly on the document
+   - User works directly on pre-populated document
+   - Focus on sections not pre-populated
    - AI waits for user to complete manual entries
    - No AI intervention during this phase
    - User signals when manual entries are complete
+   - User can modify pre-populated sections if needed
 
 4. Remaining Sections Phase:
    - Only begins after user signals manual entry completion
@@ -68,7 +71,34 @@ alwaysApply: false
    - Respect section dependencies
    - Generate section-specific questions as needed
 
-5. Progress Tracking:
+### Template Validation
+1. Template Existence Check:
+   ```markdown
+   Required Steps:
+   1. Check /docs/templates/[type]-template.md exists
+   2. If not found:
+      - STOP immediately
+      - Report missing template
+      - List available templates
+      - DO NOT create document without template
+   3. If found:
+      - Verify template follows structure
+      - Proceed with document creation
+   ```
+
+2. Available Types:
+   - ONLY valid if /docs/templates/[type]-template.md exists
+   - Must be derived from actual template files
+   - Never assume or create new types without templates
+   - Example check:
+     ```markdown
+     /docs/templates/
+     ├── program-template.md  ✓ "program" type available
+     ├── feature-template.md  ✓ "feature" type available
+     └── template-structure.md  (not a document type)
+     ```
+
+### Progress Tracking:
    ```markdown
    [✓] Complete - All required information provided
    [?] Awaiting Input - Missing required information
@@ -292,6 +322,15 @@ AI: *Makes multiple significant changes without confirmation*
 - ALWAYS validate dependencies before marking sections complete
 - ALWAYS follow template-structure.md guidelines
 - NEVER proceed past Initial Context until all required fields are complete
+- ALWAYS perform Discovery Phase after Initial Context
+- NEVER skip Discovery Phase unless template explicitly marks all sections as [MANUAL_ENTRY_ONLY]
+- ALWAYS respect [MANUAL_ENTRY_ONLY] tags in templates
+- NEVER ask Discovery questions for sections marked as [MANUAL_ENTRY_ONLY]
+- ALWAYS group Discovery questions by section and dependency
+- ALWAYS document Discovery Phase responses for later use
+- ALWAYS mark pre-populated sections with [PRE_POPULATED] tag
+- ALWAYS preserve user's ability to modify pre-populated content
+- NEVER assume Discovery Phase responses are final
 - ALWAYS add Progress History as final section
 - ALWAYS use system commands for timestamps
 - ALWAYS include both PowerShell and Bash timestamps
@@ -340,6 +379,12 @@ AI: *Makes multiple significant changes without confirmation*
 - ALWAYS use the post-update review checklist
 - NEVER skip user prompting after updates
 - ALWAYS document review findings in Progress History
+- NEVER attempt to create a document type without verifying template exists
+- ALWAYS check /docs/templates/[type]-template.md before proceeding
+- ALWAYS list available document types when template is missing
+- NEVER create new document types without corresponding templates
+- ALWAYS derive available types from existing template files
+- NEVER assume template existence - must verify
 
 metadata:
   priority: high
