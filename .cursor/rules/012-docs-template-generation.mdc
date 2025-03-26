@@ -55,6 +55,7 @@ alwaysApply: false
    - Mark remaining sections as pending manual entry
    - Add [PRE_POPULATED] tag to sections filled from Discovery
    - Add [MANUAL_ENTRY] tag to sections requiring user input
+   - Tell the user they can perform manual updates and how to resume editing the document with AI help
 
 3. Manual Entry Phase:
    - User works directly on pre-populated document
