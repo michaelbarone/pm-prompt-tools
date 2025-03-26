@@ -15,11 +15,13 @@ alwaysApply: true
 ## Requirements
 - Add or update timestamp after main title (H1)
 - Format: Updated: YYYY-MM-DD HH:mm
-- ALWAYS get timestamp from system using:
+- EXECUTE (do not paste) the timestamp command:
   ```powershell
+  # EXECUTE this command, do not paste it as text!
   Get-Date -Format "yyyy-MM-dd HH:mm"
   ```
   ```bash
+  # EXECUTE this command, do not paste it as text!
   date "+%Y-%m-%d %H:%M"
   ```
 - One empty line after H1 title
@@ -32,19 +34,18 @@ alwaysApply: true
 <example>
 # Document Title
 
-*Updated: 2024-03-21 20:45*
+*Updated: 2024-03-21 20:45*  # This should be actual output from command execution
 
 Content starts here...
 </example>
 
 <example type="invalid">
 # Document Title
-*Updated: 2024-03-21 20:45*
+*Updated: $(Get-Date -Format "yyyy-MM-dd HH:mm")*  # WRONG: Command text pasted instead of executed!
 Content starts here...
-// Missing empty lines
 
 # Document Title
-Updated: March 21, 2024 // Wrong format and no command used
+*Updated: date "+%Y-%m-%d %H:%M"*  # WRONG: Command text pasted instead of executed!
 Content starts here...
 </example>
 
@@ -52,7 +53,8 @@ Content starts here...
 - ALWAYS update timestamp on save
 - ALWAYS place timestamp after H1 title with one empty line before and after
 - ALWAYS use format: *Updated: YYYY-MM-DD HH:mm*
-- ALWAYS use system date command to generate timestamp
+- ALWAYS EXECUTE system date command to generate timestamp - DO NOT paste the command text!
 - NEVER remove or modify other content
 - NEVER add timestamp if no H1 exists
 - NEVER manually write timestamps
+- NEVER paste the command itself - EXECUTE it and use the output!

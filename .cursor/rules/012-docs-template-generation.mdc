@@ -12,6 +12,7 @@ alwaysApply: false
 - Maintains standardized document structure
 - Guides through document completion with prompts
 - Follows template structure defined in /docs/templates/template-structure.md
+- Tracks document progress and decision history
 
 ## Requirements
 
@@ -67,6 +68,7 @@ alwaysApply: false
    - Enable Manual Entry section:
      - Mark as available for updates
      - Document any provided additional context
+     - Wait for user input before reviewing and continuing to the next sections
    
    - For each remaining section:
      - Check dependencies on Initial Context and Manual Entry
@@ -80,6 +82,33 @@ alwaysApply: false
    [?] Awaiting Input - Missing required information
    [!] Dependency Blocked - Waiting for other sections
    [ ] Not Started - Section not yet addressed
+   ```
+
+5. Progress History Section:
+   - Add as final section in all documents
+   - Format timestamps using system commands:
+     ```powershell
+     Get-Date -Format "yyyy-MM-dd HH:mm"
+     ```
+     ```bash
+     date "+%Y-%m-%d %H:%M"
+     ```
+   - Include both PowerShell and Bash timestamps
+   - Structure with emoji indicators
+   - Track decisions, issues, documentation updates, and next steps
+   - Maintain chronological order (newest first)
+   
+   Progress History Structure:
+   ```markdown
+   ## Progress History
+
+   ### PowerShell: $(Get-Date -Format "yyyy-MM-dd HH:mm") - {Brief Title}
+   ### Bash: $(date "+%Y-%m-%d %H:%M") - {Brief Title}
+
+   - 🤔 Decisions: {decisions made}
+   - ❌ Issues: {problems encountered}
+   - 📚 Documentation: {documentation updates}
+   - ⏭️ Next: {next steps}
    ```
 
 ## Examples
@@ -165,10 +194,21 @@ AI: *Attempts to fill out Impact Assessment before completing Initial Context*
 - ALWAYS validate dependencies before marking sections complete
 - ALWAYS follow template-structure.md guidelines
 - NEVER proceed past Initial Context until all required fields are complete
+- ALWAYS add Progress History as final section
+- ALWAYS use system commands for timestamps
+- ALWAYS include both PowerShell and Bash timestamps
+- ALWAYS use specified emoji indicators for progress entries
+- ALWAYS include all four tracking categories (Decisions, Issues, Documentation, Next)
+- ALWAYS add empty line before Progress History section
+- ALWAYS put newest progress entries at top
+- NEVER use manual timestamps
+- NEVER skip any progress tracking categories
+- NEVER modify existing progress entries
+- NEVER remove Progress History section once added
 
 metadata:
   priority: high
-  version: 1.3.0
+  version: 1.4.0
   tags:
     - documentation
     - templates
@@ -176,4 +216,6 @@ metadata:
     - prompts
     - naming-convention
     - incremental-completion
-    - dependencies 
+    - dependencies
+    - progress-tracking
+    - history 
