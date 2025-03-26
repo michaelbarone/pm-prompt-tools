@@ -45,38 +45,30 @@ alwaysApply: false
    - Trigger: "let's create a new [type] document"
    - Validate [type] exists in /docs/templates/
    - Identify correct template source
-   - Ask Clarifying Questions as needed including name of the new document
+   - Ask ONLY Initial Prompt questions from template
+   - Generate filename following naming convention: /docs/output/[type]-[name].md
 
 2. Template Copy Phase:
    - Create output directory if needed
-   - Generate filename following naming convention: /docs/output/[type]-[name].md
-   - Copy template to destination
-   - Initialize all sections with status markers:
-     ```markdown
-     [!] Initial Context - Required First
-     [ ] Manual Entry - Available for updates
-     [ ] Other Sections - Pending Initial Context
-     ```
+   - Copy template EXACTLY to destination without modifications
    - Initialize with current timestamp
+   - Mark Initial Prompt section as complete with provided answers
+   - Mark all other sections as pending manual entry
 
-3. Document Completion Phase:
-   - Start with Initial Context section:
-     - Generate template-specific required questions
-     - Collect and validate responses
-     - Mark section as complete only when all required fields are filled
-   
-   - Enable Manual Entry section:
-     - Mark as available for updates
-     - Document any provided additional context
-     - Wait for user input before reviewing and continuing to the next sections
-   
-   - For each remaining section:
-     - Check dependencies on Initial Context and Manual Entry
-     - Mark sections with unmet dependencies as [!] Dependency Blocked
-     - Generate section-specific questions only for unblocked sections
-     - Update section status based on responses and dependencies
+3. Manual Entry Phase:
+   - User works directly on the document
+   - AI waits for user to complete manual entries
+   - No AI intervention during this phase
+   - User signals when manual entries are complete
 
-4. Progress Tracking:
+4. Remaining Sections Phase:
+   - Only begins after user signals manual entry completion
+   - AI and user collaborate to complete remaining sections
+   - Follow template section order
+   - Respect section dependencies
+   - Generate section-specific questions as needed
+
+5. Progress Tracking:
    ```markdown
    [✓] Complete - All required information provided
    [?] Awaiting Input - Missing required information
@@ -102,8 +94,7 @@ alwaysApply: false
    ```markdown
    ## Progress History
 
-   ### PowerShell: $(Get-Date -Format "yyyy-MM-dd HH:mm") - {Brief Title}
-   ### Bash: $(date "+%Y-%m-%d %H:%M") - {Brief Title}
+   ### {yyyy-MM-dd HH:mm} - {Brief Title}
 
    - 🤔 Decisions: {decisions made}
    - ❌ Issues: {problems encountered}
@@ -137,8 +128,7 @@ AI: "I'll help you create a program document. First, let's complete the Initial 
 
 [!] Initial Context - Required Questions:
 1. What is the program name?
-2. What is the primary motivation?
-3. Who is the main beneficiary?"
+2. What is the elevator pitch?
 
 User: "The name is 'Customer Portal Enhancement'"
 
@@ -146,15 +136,7 @@ AI: *Creates file as 'program-customer-portal-enhancement.md'*
 *Updates Initial Context section with provided name*
 
 "I've recorded the program name. To complete the Initial Context, I still need:
-[?] Primary motivation
-[?] Main beneficiary
-
-The following sections are blocked until Initial Context is complete:
-[!] Impact Assessment (Depends on: Main Beneficiary)
-[!] Strategic Alignment (Depends on: Primary Motivation)
-[ ] Other sections...
-
-Would you like to provide the remaining Initial Context information?"
+[?] elevator pitch
 
 [Process continues with clear dependency tracking]
 </example>
@@ -168,7 +150,123 @@ AI: *Attempts to fill out Impact Assessment before completing Initial Context*
 [Incorrect: Must complete Initial Context first and respect dependencies]
 </example>
 
+### Document Update Process
+1. Post-Generation Updates:
+   - ALL changes after initial document generation require explicit confirmation
+   - Each change must be presented as a decision point
+   - Format decision points as:
+     ```markdown
+     [?] Decision Required: {brief description}
+     - Current State: {what exists now}
+     - Proposed Change: {what will change}
+     - Rationale: {why this change is needed}
+     - Impact: {what this affects}
+     ```
+   - Wait for user confirmation before applying changes
+   - Document all decisions in Progress History
+   - Track declined/modified decisions separately
+
+2. Decision Tracking:
+   ```markdown
+   ## Decision Log
+
+   ### {yyyy-MM-dd HH:mm} - {Decision Category}
+   - 📋 Proposal: {what was proposed}
+   - ✅ Approved/❌ Declined/🔄 Modified
+   - 📝 Final Implementation: {what was actually done}
+   - 🔍 Impact: {what this affected}
+   ```
+
+3. Batch Updates:
+   - Group related changes when possible
+   - Present all changes in the batch before proceeding
+   - Allow partial acceptance of batch
+   - Document both accepted and rejected changes
+
+### Examples
+
+#### Valid Decision Confirmation
+<example>
+AI: "I propose the following changes to the Impact Assessment:
+
+[?] Decision Required: Update External Impact Level
+- Current State: Low impact rating
+- Proposed Change: Change to High impact
+- Rationale: Aligns with critical nature of financial/data issues
+- Impact: Affects stakeholder perception and prioritization
+
+User: "Approved"
+
+AI: *Updates document and adds to Decision Log*
+
+### 2024-03-26 23:00 - Impact Assessment Update
+- 📋 Proposal: Change External Impact from Low to High
+- ✅ Approved
+- 📝 Final: Updated impact level and aligned documentation
+- 🔍 Impact: Modified stakeholder expectations
+</example>
+
+#### Invalid Update Process
+<example type="invalid">
+AI: *Makes multiple significant changes without confirmation*
+*Doesn't document decisions in Progress History*
+*Modifies template structure without approval*
+
+[Incorrect: Changes must be proposed and confirmed first]
+</example>
+
+### Post-Update Review Process
+1. Immediate Review Requirements:
+   ```markdown
+   After ANY document update:
+   
+   [?] Impact Analysis Required
+   - Which sections might be affected by this change?
+   - Are there any inconsistencies created?
+   - Do any related sections need updates?
+   
+   [?] Document Integrity Check
+   - Are all sections still properly formatted?
+   - Do all cross-references still make sense?
+   - Are all dependencies still valid?
+   
+   [?] Content Alignment Review
+   - Does the change align with the document's purpose?
+   - Are there any contradictions created?
+   - Do any objectives or metrics need adjustment?
+   ```
+
+2. Review Checklist:
+   ```markdown
+   After each update, verify:
+   
+   Document Structure:
+   - [ ] All sections properly formatted
+   - [ ] No broken cross-references
+   - [ ] Dependencies still valid
+   
+   Content Consistency:
+   - [ ] No contradictions between sections
+   - [ ] All metrics and objectives aligned
+   - [ ] Impact properly reflected throughout
+   
+   Related Updates:
+   - [ ] Identified affected sections
+   - [ ] Made necessary related changes
+   - [ ] Updated Progress History
+   ```
+
+3. User Prompting:
+   ```markdown
+   Required Questions After Updates:
+   1. "Should we review any other sections for consistency?"
+   2. "Are there any related metrics or objectives that need adjustment?"
+   3. "Does this change affect any assumptions or validations?"
+   4. "Should we update the Progress History with any additional context?"
+   ```
+
 ## Critical Rules
+- ALWAYS check for resources first before creating them
 - ALWAYS verify template type exists before proceeding
 - ALWAYS establish output location first
 - NEVER modify template source files
@@ -205,17 +303,50 @@ AI: *Attempts to fill out Impact Assessment before completing Initial Context*
 - NEVER skip any progress tracking categories
 - NEVER modify existing progress entries
 - NEVER remove Progress History section once added
+- ALWAYS copy complete sections from template files
+- NEVER modify template-defined section structure
+- ALWAYS preserve template comments and guidance
+- ALWAYS maintain template-defined formatting
+- ALWAYS include all template-required sections
+- NEVER skip template-defined sections
+- ALWAYS preserve template-defined options
+- NEVER modify predefined options without template update
+- ALWAYS copy template EXACTLY without modifications beyond Initial Prompt answers
+- NEVER prompt for information beyond Initial Prompt section until manual entry phase complete
+- ALWAYS wait for user to signal manual entry completion
+- NEVER modify manual entry sections without explicit user request
+- ALWAYS respect the three-phase process: Initial Prompt -> Manual Entry -> Remaining Sections
+- ALWAYS propose changes after initial document creation
+- NEVER make post-generation changes without confirmation
+- ALWAYS format decision points with all required fields
+- ALWAYS document decisions in Progress History
+- ALWAYS maintain a Decision Log for significant changes
+- NEVER batch unrelated changes together
+- ALWAYS allow partial acceptance of batch changes
+- ALWAYS track declined and modified decisions
+- NEVER proceed with changes until explicitly approved
+- ALWAYS include rationale and impact for proposed changes
+- ALWAYS update timestamps when changes are approved
+- NEVER modify template structure without approval
+- ALWAYS preserve previous decision history
+- NEVER overwrite or remove past decisions
+- ALWAYS track decision outcomes (Approved/Declined/Modified)
+- ALWAYS perform post-update document review
+- ALWAYS prompt user about potential related changes
+- NEVER skip impact analysis after updates
+- ALWAYS verify document consistency after changes
+- NEVER assume changes are isolated
+- ALWAYS check for cross-section dependencies
+- ALWAYS use the post-update review checklist
+- NEVER skip user prompting after updates
+- ALWAYS document review findings in Progress History
 
 metadata:
   priority: high
-  version: 1.4.0
+  version: 1.5.0
   tags:
     - documentation
     - templates
     - generation
-    - prompts
-    - naming-convention
-    - incremental-completion
-    - dependencies
-    - progress-tracking
-    - history 
+    - decision-tracking
+    - change-management 

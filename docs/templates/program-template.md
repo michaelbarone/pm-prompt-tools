@@ -2,7 +2,7 @@
 
 *Updated: 2024-03-21 14:30*
 
-## Initial Context
+## Initial Prompt
 <!-- 
 COMPLETE THIS SECTION FIRST
 This section provides the essential context needed for stakeholders to quickly understand your program.
@@ -18,7 +18,7 @@ Fill this out before proceeding with the detailed sections below.
 [Your compelling pitch here that explains the program's purpose and value proposition]
 ```
 
-## Manual Entry
+## Rest of Template
 
 ### Primary Motivation
 <!-- Select ONE of the following by removing the [ ] and adding [X] -->
@@ -109,15 +109,15 @@ Fill this out before proceeding with the detailed sections below.
 
 ### External Beneficiary Objectives
 <!-- List specific benefits for external beneficiaries. Leave blank if N/A -->
-- [ ] Objective 1: [Specific benefit]
-- [ ] Objective 2: [Specific benefit]
-- [ ] Objective 3: [Specific benefit]
+- Objective 1: [Specific benefit]
+- Objective 2: [Specific benefit]
+- Objective 3: [Specific benefit]
 
 ### Internal Beneficiary Objectives
 <!-- List specific benefits for internal beneficiaries -->
-- [ ] Objective 1: [Specific benefit]
-- [ ] Objective 2: [Specific benefit]
-- [ ] Objective 3: [Specific benefit]
+- Objective 1: [Specific benefit]
+- Objective 2: [Specific benefit]
+- Objective 3: [Specific benefit]
 
 ### Key Results (Success Metrics)
 <!-- List specific, measurable outcomes that define success -->
@@ -168,7 +168,7 @@ Fill this out before proceeding with the detailed sections below.
 - Resource Requirements: [List key resources needed]
 
 ---
-<!-- Remove this section when using the template -->
+<!-- For AI Remove this section when using the template -->
 ## Template Usage Notes
 1. Replace all text in [brackets] with your specific content
 2. Select options by changing [ ] to [X] for your choice

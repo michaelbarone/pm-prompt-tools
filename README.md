@@ -11,12 +11,12 @@ A collection of tools and utilities for managing and working with AI prompts in 
 
 ## Directory Structure
 
-```
+```markdown
 .cursor/
-└── rules/                # AI prompt rules and guidelines
+  └── rules/                # AI prompt rules and guidelines
 docs/
-├── templates/            # Document templates
-├── output/               # Generated documentation
+  ├── templates/            # Document templates
+  └── output/               # Generated documentation
 cursor-settings.md        # IDE settings and configurations
 README.md                 # this file
 ```
