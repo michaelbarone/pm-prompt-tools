@@ -14,6 +14,114 @@ alwaysApply: false
 - Follows template structure defined in /docs/templates/template-structure.md
 - Tracks document progress and decision history
 
+## ⚠️ CRITICAL CHECKPOINTS ⚠️
+
+### Required Document Generation Stops
+1. Template Validation Stop
+   ```markdown
+   [!] MUST STOP AND VERIFY
+   - Template exists at /docs/templates/[type]-template.md
+   - Template follows required structure
+   - Output location is valid
+   ```
+
+2. Initial Context Stop
+   ```markdown
+   [!] MUST STOP AND VERIFY
+   - All Initial Prompt questions answered
+   - Responses properly formatted
+   - Document name follows conventions
+   ```
+
+3. Manual Entry Phase Stop
+   ```markdown
+   [!] MUST STOP AND WAIT
+   - After Initial Context completion
+   - Before proceeding with Discovery Phase
+   - User must complete manual entries
+   ```
+
+4. ⛔️ SOLUTION PHASE CHECKPOINT - MANDATORY STOP ⛔️
+   ```markdown
+   [!] ABSOLUTELY MUST STOP HERE
+   
+   Trigger Point:
+   - After completing all sections up to Impact Assessment
+   - BEFORE any solution planning or risk assessment
+   
+   Required Validation Steps:
+   1. [ ] Run automated section completion check
+   2. [ ] Verify no [MANUAL_ENTRY] tags remain
+   3. [ ] Confirm all metrics are properly defined
+   4. [ ] Validate impact assessment completion
+   
+   Required User Interaction:
+   1. [ ] Present section summary for user review
+   2. [ ] Ask clarifying questions about each section
+   3. [ ] Document all user responses
+   4. [ ] Obtain explicit permission to proceed
+   
+   Validation Questions Template:
+   ```markdown
+   [CHECKPOINT QUESTIONS]
+   
+   1. Problem Understanding:
+      - Have we captured all aspects of the problem?
+      - Are there any hidden assumptions?
+      - What challenges might we have missed?
+   
+   2. Objectives Review:
+      - Are all objectives SMART (Specific, Measurable, Achievable, Relevant, Time-bound)?
+      - Do the metrics align with objectives?
+      - Are success criteria clearly defined?
+   
+   3. Impact Validation:
+      - Have we identified all stakeholders?
+      - Are impact assessments realistic?
+      - What potential negative impacts need consideration?
+   ```
+   
+   Required Confirmation:
+   ```markdown
+   [!] EXPLICIT USER CONFIRMATION REQUIRED
+   
+   Please confirm:
+   1. All sections are accurate and complete
+   2. All assumptions have been validated
+   3. We may proceed with solution planning
+   
+   Response required: "Confirmed - Proceed with solutions"
+   ```
+   ```
+
+5. Final Review Stop
+   ```markdown
+   [!] MUST STOP AND VERIFY
+   - All sections completed
+   - All validations passed
+   - Progress history updated
+   ```
+
+### Checkpoint Validation System
+```markdown
+Each checkpoint must implement:
+
+1. Visual Markers:
+   - ⚠️ Warning emoji for standard stops
+   - ⛔️ Stop emoji for critical stops
+   - [!] Prefix for all checkpoint headers
+
+2. Automated Validation:
+   - [ ] Checkbox list for requirements
+   - [ ] Section completion verification
+   - [ ] Dependency validation
+
+3. User Interaction:
+   - Required explicit confirmation
+   - Standardized response format
+   - Documentation of decisions
+```
+
 ## Requirements
 
 ### Template Types and Locations
@@ -71,6 +179,85 @@ alwaysApply: false
    - Follow template section order
    - Respect section dependencies
    - Generate section-specific questions as needed
+   - STOP at solution phase, see next step
+
+5. Solution Phase Checkpoint:
+   ```markdown
+   Required Steps Before Solution Planning:
+   
+   1. Checkpoint Trigger:
+      - Occurs after completing:
+        * Initial Context
+        * Problem Statement
+        * Objectives and Success Metrics
+        * Impact Assessment
+      - Before starting:
+        * Solution Planning
+        * Risk Assessment
+   
+   2. Validation Requirements:
+      - [✓] All previous sections completed
+      - [✓] No [MANUAL_ENTRY] tags remaining
+      - [✓] All metrics properly defined
+      - [✓] Impact assessment fully validated
+
+   3. Document Assessment Phase:
+      ```markdown
+      A. Initial Document Review:
+         - Read and analyze all completed sections
+         - Identify potential gaps or inconsistencies
+         - Note areas needing clarification
+         - List any assumptions that need validation
+
+      B. AI Analysis Requirements:
+         Before presenting questions to user:
+         - Generate specific questions based on document content
+         - Identify potential unknowns that could impact solutions
+         - List any dependencies or constraints not yet discussed
+         - Note any missing stakeholder perspectives
+
+      C. Structured Verification:
+         Present findings in this order:
+         1. Problem Understanding:
+            - Summarize current problem statement
+            - List identified gaps or assumptions
+            - Present specific clarifying questions
+
+         2. Objectives and Metrics:
+            - Review each objective's clarity and measurability
+            - Validate metric feasibility
+            - Question any vague or unmeasurable goals
+
+         3. Impact and Stakeholders:
+            - Confirm stakeholder identification is complete
+            - Verify impact assessment accuracy
+            - Question any potential missed implications
+
+      D. Solution Readiness Check:
+         After addressing all questions:
+         - Summarize key findings and clarifications
+         - List any remaining uncertainties
+         - Present recommendation for proceeding or updating
+         - Request explicit user confirmation to proceed
+      ```
+
+   4. Solution Planning Prerequisites:
+      - All checkpoint questions answered
+      - User explicit confirmation to proceed
+      - Document current state in Progress History
+      - Mark previous sections as [VALIDATED]
+   
+   5. Checkpoint Documentation:
+      Add to Progress History:
+      ```markdown
+      ### {timestamp} - Solution Phase Checkpoint
+      
+      - 🤔 Decisions: Completed pre-solution validation
+      - ❌ Issues: [List any identified issues]
+      - 📚 Documentation: [List sections validated]
+      - ⏭️ Next: Begin solution planning phase
+      ```
+   ```
 
 ### Template Validation
 1. Template Existence Check:
@@ -297,6 +484,9 @@ AI: *Makes multiple significant changes without confirmation*
    ```
 
 ## Critical Rules
+- ⛔️ NEVER SKIP MANDATORY CHECKPOINTS - All stops are required
+- ⛔️ NEVER PROCEED PAST SOLUTION PHASE CHECKPOINT without explicit confirmation
+- ⛔️ ALWAYS VALIDATE all sections before solution planning
 - ALWAYS check for resources first before creating them
 - ALWAYS verify template type exists before proceeding
 - ALWAYS establish output location first
@@ -386,6 +576,13 @@ AI: *Makes multiple significant changes without confirmation*
 - NEVER create new document types without corresponding templates
 - ALWAYS derive available types from existing template files
 - NEVER assume template existence - must verify
+- ALWAYS enforce Solution Phase Checkpoint before solution planning
+- NEVER proceed to solutions without explicit checkpoint completion
+- ALWAYS document checkpoint validation in Progress History
+- NEVER skip checkpoint questions
+- ALWAYS mark previous sections as [VALIDATED] after checkpoint
+- NEVER proceed if checkpoint reveals issues
+- ALWAYS allow for revisions of previous sections during checkpoint
 
 metadata:
   priority: high

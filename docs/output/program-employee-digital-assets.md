@@ -35,7 +35,7 @@ Businesses need better ways to acquire customers, but they're missing a major gr
 - [ ] Marketing Team
 - [ ] Operations Team
 - [ ] Leadership Team
-- [ ] All Teams
+- [X] All Teams
 
 #### Edge Employee Impact
 <!-- Select ONE option from each category -->
@@ -44,14 +44,14 @@ Businesses need better ways to acquire customers, but they're missing a major gr
 - [ ] 1-5 employees
 - [ ] 6-20 employees
 - [ ] 21-50 employees
-- [ ] 51-100 employees
+- [X] 51-100 employees
 - [ ] 101-200 employees
 - [ ] 201-500 employees
 - [ ] 500+ employees
 
 **Average Impact Level:**
 - [ ] Minimal: Minor workflow improvements
-- [ ] Low: Noticeable but small efficiency gains
+- [X] Low: Noticeable but small efficiency gains
 - [ ] Medium: Significant workflow improvements
 - [ ] High: Major productivity/satisfaction boost
 - [ ] Critical: Transformative impact on daily work
@@ -60,7 +60,7 @@ Businesses need better ways to acquire customers, but they're missing a major gr
 
 #### Primary External Beneficiary Group
 <!-- Select ONE of the following by removing the [ ] and adding [X] -->
-- [ ] All Customers
+- [X] All Customers
 - [ ] Enterprise Customers
 - [ ] SMB Customers
 - [ ] New Customers
@@ -75,7 +75,7 @@ Businesses need better ways to acquire customers, but they're missing a major gr
 **Percentage of Group Affected:**
 - [ ] 1-10%
 - [ ] 11-25%
-- [ ] 26-50%
+- [X] 26-50%
 - [ ] 51-75%
 - [ ] 76-90%
 - [ ] 91-100%
@@ -83,7 +83,7 @@ Businesses need better ways to acquire customers, but they're missing a major gr
 **Average Impact Level:**
 - [ ] Minimal: Slight improvement in experience
 - [ ] Low: Noticeable but small benefit
-- [ ] Medium: Clear and valuable improvement
+- [X] Medium: Clear and valuable improvement
 - [ ] High: Significant value addition
 - [ ] Critical: Essential improvement
 
