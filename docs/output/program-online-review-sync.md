@@ -81,8 +81,7 @@ These limitations affect our ability to deliver an optimal customer experience, 
 
 ### External Beneficiary Objectives
 - Objective 1: Transform new location onboarding experience with immediate review sync capabilities
-- Objective 2: Enhance customer confidence through consistent and accurate review data
-- Objective 3: Empower customers with faster response to review sync needs
+- Objective 2: Enhance customer confidence through immediate, consistent and accurate review data
 
 ### Internal Beneficiary Objectives
 - Objective 1: Enable CS team with self-service review sync capabilities
