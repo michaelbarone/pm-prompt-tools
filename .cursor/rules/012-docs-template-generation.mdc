@@ -1,7 +1,7 @@
 ---
 description: Generate document from template when prompted to create new document or create new program
-globs: docs/templates/**/*.md
-alwaysApply: false
+globs: docs/templates/**/*.md, docs/output/**/*.md
+alwaysApply: true
 ---
 
 # Document Template Generation
