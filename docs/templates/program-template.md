@@ -1,6 +1,6 @@
 # Program Proposal Template
 
-*Updated: 2024-03-21 14:30*
+*Updated: $(Get-Date -Format "yyyy-MM-dd HH:mm")*
 
 ## Initial Prompt
 <!-- 
@@ -69,13 +69,10 @@ Fill this out before proceeding with the detailed sections below.
 #### Primary External Beneficiary Group
 <!-- Select ONE of the following by removing the [ ] and adding [X] -->
 - [ ] All Customers
-- [ ] Enterprise Customers
-- [ ] SMB Customers
-- [ ] New Customers
-- [ ] Potential Customers
-- [ ] Partners
-- [ ] Developers
-- [ ] Other: [Specify]
+- [ ] Business
+- [ ] Employees
+- [ ] Consumers (guests)
+- [ ] NA
 
 #### External Impact Metrics
 <!-- Select ONE option from each category -->
